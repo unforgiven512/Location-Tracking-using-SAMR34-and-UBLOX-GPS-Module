@@ -348,6 +348,21 @@
       <ToolName>EDBG</ToolName>
     </com_atmel_avrdbg_tool_edbg>
     <avrtoolinterfaceclock>2000000</avrtoolinterfaceclock>
+    <AAFDebugger>
+      <AAFDebugFiles>
+        <DebugFile>
+          <path>\Debug\Location Tracking End Device App.lss</path>
+          <AAFSetting>
+            <Label>Lss Files</Label>
+            <Extention>.lss</Extention>
+            <Regex>^\s*(?&lt;address&gt;[a-f0-9]*):\s*.*$</Regex>
+            <DebugEnabled>true</DebugEnabled>
+            <RegexGroups>address</RegexGroups>
+            <DebuggerExpression>$pc</DebuggerExpression>
+          </AAFSetting>
+        </DebugFile>
+      </AAFDebugFiles>
+    </AAFDebugger>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
@@ -617,7 +632,7 @@
       <Value>AS_BAND=1</Value>
       <Value>AU_BAND=1</Value>
       <Value>BOARD=SAMR34_XPLAINED_PRO</Value>
-      <Value>EDBG_EUI_READ=0</Value>
+      <Value>EDBG_EUI_READ=1</Value>
       <Value>ENABLE_PDS=1</Value>
       <Value>EU_BAND=1</Value>
       <Value>EXTINT_CALLBACK_MODE=true</Value>
@@ -633,10 +648,17 @@
       <Value>TC_ASYNC=true</Value>
       <Value>USART_CALLBACK_MODE=true</Value>
       <Value>_DEBUG_=0</Value>
-      <Value>__SAMR34J18B__</Value>
       <Value>UBLOX_LEA6</Value>
+      <Value>UBLOX_NEO6</Value>
+      <Value>DEFAULT_CONFIG</Value>
     </ListValues>
   </armgcc.compiler.symbols.DefSymbols>
+  <armgcc.compiler.preprocessor.UndefSymbols>
+    <ListValues>
+      <Value>NDEBUG</Value>
+      <Value>__DOXYGEN__</Value>
+    </ListValues>
+  </armgcc.compiler.preprocessor.UndefSymbols>
   <armgcc.compiler.directories.IncludePaths>
     <ListValues>
       <Value>../src</Value>
@@ -699,12 +721,18 @@
       <Value>../src/CayenneLPP</Value>
     </ListValues>
   </armgcc.compiler.directories.IncludePaths>
-  <armgcc.compiler.optimization.level>Optimize (-O1)</armgcc.compiler.optimization.level>
-  <armgcc.compiler.optimization.OtherFlags>-fdata-sections</armgcc.compiler.optimization.OtherFlags>
+  <armgcc.compiler.optimization.level>Optimize debugging experience (-Og)</armgcc.compiler.optimization.level>
+  <armgcc.compiler.optimization.OtherFlags>-fno-strict-aliasing</armgcc.compiler.optimization.OtherFlags>
   <armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>True</armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>
+  <armgcc.compiler.optimization.PrepareDataForGarbageCollection>True</armgcc.compiler.optimization.PrepareDataForGarbageCollection>
+  <armgcc.compiler.optimization.GeneratePositionIndependentCode>True</armgcc.compiler.optimization.GeneratePositionIndependentCode>
   <armgcc.compiler.optimization.DebugLevel>Maximum (-g3)</armgcc.compiler.optimization.DebugLevel>
   <armgcc.compiler.warnings.AllWarnings>True</armgcc.compiler.warnings.AllWarnings>
-  <armgcc.compiler.miscellaneous.OtherFlags>-pipe -fno-strict-aliasing -Wall -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -std=gnu99 -ffunction-sections -fdata-sections -Wchar-subscripts -Wcomment -Wformat=2 -Wimplicit-int -Wmain -Wparentheses -Wsequence-point -Wreturn-type -Wswitch -Wtrigraphs -Wunused -Wuninitialized -Wunknown-pragmas -Wfloat-equal -Wundef -Wshadow -Wbad-function-cast -Wwrite-strings -Wsign-compare -Waggregate-return  -Wmissing-declarations -Wformat -Wmissing-format-attribute -Wno-deprecated-declarations -Wpacked -Wredundant-decls -Wnested-externs -Wlong-long -Wunreachable-code -Wcast-align --param max-inline-insns-single=500</armgcc.compiler.miscellaneous.OtherFlags>
+  <armgcc.compiler.warnings.ExtraWarnings>True</armgcc.compiler.warnings.ExtraWarnings>
+  <armgcc.compiler.warnings.Undefined>True</armgcc.compiler.warnings.Undefined>
+  <armgcc.compiler.warnings.Pedantic>True</armgcc.compiler.warnings.Pedantic>
+  <armgcc.compiler.miscellaneous.OtherFlags>-pipe -std=gnu11 --param max-inline-insns-single=500</armgcc.compiler.miscellaneous.OtherFlags>
+  <armgcc.compiler.miscellaneous.Verbose>True</armgcc.compiler.miscellaneous.Verbose>
   <armgcc.linker.libraries.Libraries>
     <ListValues>
       <Value>LORAWAN_LIBGEN</Value>
@@ -720,8 +748,10 @@
     </ListValues>
   </armgcc.linker.libraries.LibrarySearchPaths>
   <armgcc.linker.optimization.GarbageCollectUnusedSections>True</armgcc.linker.optimization.GarbageCollectUnusedSections>
+  <armgcc.linker.optimization.GeneratePositionIndependentCode>True</armgcc.linker.optimization.GeneratePositionIndependentCode>
   <armgcc.linker.memorysettings.ExternalRAM />
-  <armgcc.linker.miscellaneous.LinkerFlags>-Wl,--entry=Reset_Handler -Wl,--cref -mthumb -T../src/ASF/sam0/utils/linker_scripts/samr34/gcc/samr34j18b_flash.ld</armgcc.linker.miscellaneous.LinkerFlags>
+  <armgcc.linker.miscellaneous.LinkerFlags>-Wl,--entry=Reset_Handler -Wl,--cref -T../src/ASF/sam0/utils/linker_scripts/samr34/gcc/samr34j18b_flash.ld</armgcc.linker.miscellaneous.LinkerFlags>
+  <armgcc.assembler.general.AssemblerFlags>-D__SAMR34J18B__ -DDEFAULT_CONFIG -DADC_CALLBACK_MODE=true -DARM_MATH_CM0PLUS=true -DAS_BAND=1 -DAU_BAND=1 -DBOARD=SAMR34_XPLAINED_PRO -DEDBG_EUI_READ=1 -DENABLE_PDS=1 -DEU_BAND=1 -DEXTINT_CALLBACK_MODE=true -DI2C_MASTER_CALLBACK_MODE=true -DIND_BAND=1 -DJPN_BAND=1 -DKR_BAND=1 -DNA_BAND=1 -DRANDOM_NW_ACQ=0 -DRTC_COUNT_ASYNC=true -DSPI_CALLBACK_MODE=false -DSYSTICK_MODE -DTC_ASYNC=true -DUSART_CALLBACK_MODE=true -D_DEBUG_=0 -DUBLOX_LEA6 -DUBLOX_NEO6  -UNDEBUG -U__DOXYGEN__</armgcc.assembler.general.AssemblerFlags>
   <armgcc.assembler.general.IncludePaths>
     <ListValues>
       <Value>../src</Value>
@@ -783,8 +813,9 @@
       <Value>../src/config</Value>
     </ListValues>
   </armgcc.assembler.general.IncludePaths>
+  <armgcc.assembler.general.AnounceVersion>True</armgcc.assembler.general.AnounceVersion>
   <armgcc.assembler.debugging.DebugLevel>Default (-g)</armgcc.assembler.debugging.DebugLevel>
-  <armgcc.preprocessingassembler.general.AssemblerFlags>-DADC_CALLBACK_MODE=true -DARM_MATH_CM0PLUS=true -DAS_BAND=1 -DAU_BAND=1 -DBOARD=SAMR34_XPLAINED_PRO -DCERT_APP=1 -DCONF_PMM_ENABLE -DEDBG_EUI_READ=1 -DENABLE_PDS=1 -DEU_BAND=1 -DEXTINT_CALLBACK_MODE=true -DI2C_MASTER_CALLBACK_MODE=true -DIND_BAND=1 -DJPN_BAND=1 -DKR_BAND=1 -DNA_BAND=1 -DRANDOM_NW_ACQ=1 -DRTC_COUNT_ASYNC=true -DSPI_CALLBACK_MODE=false -DSYSTICK_MODE -DTC_ASYNC=true -DUSART_CALLBACK_MODE=true -D_DEBUG_=0 -D__SAMR34J18B__</armgcc.preprocessingassembler.general.AssemblerFlags>
+  <armgcc.preprocessingassembler.general.AssemblerFlags>-D__SAMR34J18B__ -DADC_CALLBACK_MODE=true -DARM_MATH_CM0PLUS=true -DAS_BAND=1 -DAU_BAND=1 -DBOARD=SAMR34_XPLAINED_PRO -DEDBG_EUI_READ=1 -DENABLE_PDS=1 -DEU_BAND=1 -DEXTINT_CALLBACK_MODE=true -DI2C_MASTER_CALLBACK_MODE=true -DIND_BAND=1 -DJPN_BAND=1 -DKR_BAND=1 -DNA_BAND=1 -DRANDOM_NW_ACQ=0 -DRTC_COUNT_ASYNC=true -DSPI_CALLBACK_MODE=false -DSYSTICK_MODE -DTC_ASYNC=true -DUSART_CALLBACK_MODE=true -D_DEBUG_=0 -DUBLOX_LEA6 -DUBLOX_NEO6</armgcc.preprocessingassembler.general.AssemblerFlags>
   <armgcc.preprocessingassembler.general.IncludePaths>
     <ListValues>
       <Value>../src</Value>
@@ -846,6 +877,19 @@
       <Value>../src/config</Value>
     </ListValues>
   </armgcc.preprocessingassembler.general.IncludePaths>
+  <armgcc.preprocessingassembler.general.AnounceVersion>True</armgcc.preprocessingassembler.general.AnounceVersion>
+  <armgcc.preprocessingassembler.symbols.DefSymbols>
+    <ListValues>
+      <Value>DEBUG</Value>
+      <Value>DEFAULT_CONFIG</Value>
+    </ListValues>
+  </armgcc.preprocessingassembler.symbols.DefSymbols>
+  <armgcc.preprocessingassembler.symbols.UndefSymbols>
+    <ListValues>
+      <Value>NDEBUG</Value>
+      <Value>__DOXYGEN__</Value>
+    </ListValues>
+  </armgcc.preprocessingassembler.symbols.UndefSymbols>
   <armgcc.preprocessingassembler.debugging.DebugLevel>Default (-Wa,-g)</armgcc.preprocessingassembler.debugging.DebugLevel>
 </ArmGcc>
     </ToolchainSettings>
