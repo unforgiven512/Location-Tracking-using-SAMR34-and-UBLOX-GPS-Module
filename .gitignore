@@ -15,6 +15,7 @@ Thumbs.db
 *_p.c
 *.ncb
 *.suo
+*.atsuo
 *.sln.docstates
 *.tlb
 *.tlh
@@ -24,16 +25,19 @@ Thumbs.db
 *.log
 [Bb]in
 [Dd]ebug*/
+/[Dd]ebug*/
 *.lib
 *.sbr
 obj/
 [Rr]elease*/
+/[Rr]elease*/
 _ReSharper*/
 [Tt]est[Rr]esult*
 *.vssscc
 $tf*/
-Debug/Makefile
-Release/Makefile
+
+/Debug/Makefile
+/Release/Makefile
 
 
 ## General/Backup Files ##
