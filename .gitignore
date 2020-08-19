@@ -32,6 +32,8 @@ _ReSharper*/
 [Tt]est[Rr]esult*
 *.vssscc
 $tf*/
+Debug/Makefile
+Release/Makefile
 
 
 ## General/Backup Files ##
